@@ -1,0 +1,62 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# C extensions
+*.so
+
+# Virtual environments
+venv/
+env/
+.venv/
+.env/
+
+# FastAPI logs / databases / etc.
+*.log
+*.db
+*.sqlite3
+
+# dotenv files (if used for secrets)
+.env
+.env.*
+
+# PyCharm project files
+.idea/
+
+# VSCode (if used)
+.vscode/
+
+# Mypy, coverage, test reports
+.mypy_cache/
+.coverage
+htmlcov/
+coverage.xml
+
+# Pytest
+.pytest_cache/
+
+# Pydantic cache
+__pydantic_model_cache__/
+
+# Build artifacts
+build/
+dist/
+*.egg-info/
+
+# Wheels
+*.whl
+
+# Installer logs
+pip-log.txt
+
+# Jupyter notebooks
+*.ipynb_checkpoints
+
+# MacOS / Windows / Linux system files
+.DS_Store
+Thumbs.db
+ehthumbs.db
+Icon?
+*.swp
+*~
