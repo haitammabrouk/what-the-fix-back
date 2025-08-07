@@ -1,4 +1,24 @@
 from fastapi import FastAPI
+from starlette.middleware.cors import CORSMiddleware
+from app.routes import API_ROUTER
+from app.config import settings
+from app.db.base import Base, engine
 
-app = FastAPI()
+# Create database tables
+Base.metadata.create_all(bind=engine)
 
+app = FastAPI(
+    title=settings.app_name,
+    debug=settings.debug,
+    version=settings.version,
+)
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:5173"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+app.include_router(API_ROUTER, prefix=f"/api/{settings.api_version}")
