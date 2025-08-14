@@ -10,4 +10,4 @@ class Tag(Base):
     name = Column(String(100), nullable=False)
 
     # set the relationship with the fix_tag table
-    fixes = relationship('Fix', secondary=fix_tag_table, back_populates='tags')
+    fixes = relationship('Fix', secondary='fix_tag', back_populates='tags')
