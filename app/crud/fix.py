@@ -75,7 +75,7 @@ class FixCrud:
             db.rollback()
 
     def get_all(self, db: Session) -> List[FixResponse]:
-        fixes = db.query(Fix).all()
+        fixes = db.query(Fix).order_by(Fix.created_at.desc()).all()
         fix_responses = []
         for fix in fixes:
             tag_names = [tag.name for tag in fix.tags]

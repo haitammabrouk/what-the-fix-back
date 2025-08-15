@@ -1,4 +1,5 @@
-from sqlalchemy import Column, Integer, String, DateTime, ForeignKey
+from sqlalchemy import Column, Integer, String, DateTime, ForeignKey, Index
+from sqlalchemy.dialects.postgresql import TSVECTOR
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func
 from app.db.base import Base
@@ -20,3 +21,11 @@ class Fix(Base):
 
     # set the relationship with the tags table
     tags = relationship('Tag', secondary='fix_tag', back_populates='fixes')
+
+    # the full text
+    document = Column(TSVECTOR)
+
+    # Create GIN index on the document to make full text search fast
+    __table_args__ = (
+        Index('idx_fixes_document', document, postgresql_using='gin'),
+    )
