@@ -11,6 +11,9 @@ class Settings(BaseSettings):
     postgres_password: str
     postgres_host: str = "localhost"
     postgres_port: int = 5432
+    llm_base_url: str
+    llm_token: str
+    llm_model: str
 
     class Config:
         env_file = ".env"

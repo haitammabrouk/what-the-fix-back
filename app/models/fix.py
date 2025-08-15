@@ -13,7 +13,7 @@ class Fix(Base):
     created_at = Column(DateTime, nullable=False, server_default=func.now())
     updated_at = Column(DateTime, nullable=False, server_default=func.now())
     # Foreign key to the users table
-    user_id = Column(Integer, ForeignKey('users.id'), unique=True)
+    user_id = Column(Integer, ForeignKey('users.id'))
 
     # set the relationship with the users table
     user = relationship('User', back_populates='fixes')
