@@ -2,15 +2,6 @@ from fastapi import FastAPI
 from starlette.middleware.cors import CORSMiddleware
 from app.routes import API_ROUTER
 from app.config import settings
-from app.db.base import Base, engine
-
-from app.models.user import User
-from app.models.tag import Tag
-from app.models.fix import Fix
-from app.models.fix_tag_junction import fix_tag_table
-
-# Create database tables
-Base.metadata.create_all(bind=engine)
 
 app = FastAPI(
     title=settings.app_name,

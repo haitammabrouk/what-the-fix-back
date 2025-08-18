@@ -16,7 +16,7 @@ class FixCrud:
     async def create(self, db: Session, fix: FixCreate) -> Optional[FixResponse]:
         """Create a fix with AI-generated title and tags using GPT-4o Model"""
         try:
-            logger.info("🧠 Generating title and tags with GitHub LLM...")
+            logger.info("Generating title and tags with GitHub LLM...")
 
             # Step 1: Generate title and tags using GitHub LLM
             ai_result = await llm_service.generate_title_and_tags(
