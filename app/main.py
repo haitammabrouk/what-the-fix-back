@@ -3,6 +3,11 @@ from starlette.middleware.cors import CORSMiddleware
 from app.routes import API_ROUTER
 from app.config import settings
 
+from app.models.user import User
+from app.models.tag import Tag
+from app.models.fix_tag_junction import fix_tag_table
+from app.models.fix import Fix
+
 app = FastAPI(
     title=settings.app_name,
     debug=settings.debug,

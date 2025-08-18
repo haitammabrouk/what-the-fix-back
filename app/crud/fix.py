@@ -1,6 +1,7 @@
 from typing import List, Any, Coroutine, Optional
 
 from sqlalchemy.orm import Session
+from fastapi import HTTPException
 
 from app.schemas.fix import FixCreate, FixResponse
 from app.models.fix import Fix
@@ -13,7 +14,7 @@ logger = logging.getLogger(__name__)
 
 
 class FixCrud:
-    async def create(self, db: Session, fix: FixCreate) -> Optional[FixResponse]:
+    async def create(self, db: Session, fix: FixCreate) -> FixResponse:
         """Create a fix with AI-generated title and tags using GPT-4o Model"""
         try:
             logger.info("Generating title and tags with GitHub LLM...")
@@ -73,19 +74,31 @@ class FixCrud:
         except Exception as e:
             logger.error(f"Error while creating the fix: {e}")
             db.rollback()
+            # IMPORTANT: Raise an HTTPException instead of returning None
+            raise HTTPException(
+                status_code=500,
+                detail=f"Failed to create fix: {str(e)}"
+            )
 
     def get_all(self, db: Session) -> List[FixResponse]:
-        fixes = db.query(Fix).order_by(Fix.created_at.desc()).all()
-        fix_responses = []
-        for fix in fixes:
-            tag_names = [tag.name for tag in fix.tags]
-            fix_responses.append(
-                FixResponse(
-                    title=fix.title,
-                    problem=fix.problem,
-                    solution=fix.solution,
-                    tags=tag_names)
-                )
-        return fix_responses
+        try:
+            fixes = db.query(Fix).order_by(Fix.created_at.desc()).all()
+            fix_responses = []
+            for fix in fixes:
+                tag_names = [tag.name for tag in fix.tags]
+                fix_responses.append(
+                    FixResponse(
+                        title=fix.title,
+                        problem=fix.problem,
+                        solution=fix.solution,
+                        tags=tag_names)
+                    )
+            return fix_responses
+        except Exception as e:
+            logger.error(f"Error while fetching fixes: {e}")
+            raise HTTPException(
+                status_code=500,
+                detail=f"Failed to fetch fixes: {str(e)}"
+            )
 
 fix_crud = FixCrud()
